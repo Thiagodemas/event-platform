@@ -1,6 +1,6 @@
 export function Logo() {
   return (
-    <div className="flex gap-3 justify-center items-center align-center">
+    <div className="flex gap-3 items-center">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="23"
