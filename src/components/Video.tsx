@@ -1,15 +1,61 @@
 import { DefaultUi, Player, Vimeo, Youtube } from "@vime/react";
-import { CaretRight, DiscordLogo, FileArrowDown, Lightning } from "phosphor-react";
+import { CaretRight, DiscordLogo, FacebookLogo, FileArrowDown, InstagramLogo, Lightning } from "phosphor-react";
 
 import "@vime/core/themes/default.css"
+import { gql, useQuery } from "@apollo/client";
 
-export function Video() {
+const GET_LESSONS_BY_SLUG_QUERY = gql`
+  query GetLessonBySlug ($slug: String){
+  lesson(where: {slug: $slug}) {
+    title
+    videoId
+    description
+    teacher {
+      bio
+      avatarURL
+      name
+    }
+  }
+}
+
+`
+
+interface VideoProps {
+  lessonSlug: string
+}
+
+interface GetLessonBySlugResponse {
+  lesson: {
+    title: string
+    videoId: string
+    description: string
+    teacher: {
+      bio: string
+      avatarURL: string
+      name: string
+    }
+  }
+}
+
+export function Video(props: VideoProps) {
+  const { data } = useQuery<GetLessonBySlugResponse>(GET_LESSONS_BY_SLUG_QUERY, {
+    variables: {
+      "slug": props.lessonSlug
+    }
+  })
+
+  if (!data) {
+    return (
+      <div className="flex-1 flex justify-center items-center"><p className="text-2xl">Loading...</p></div>
+    )
+  }
+
   return (
     <div className="flex-1">
       <div className="flex justify-center bg-black ">
         <div className="h-full w-full max-w-[1100px] max-h-[60vh] aspect-video">
           <Player>
-            <Youtube videoId="KJj70dBgRPo" />
+            <Youtube videoId={data.lesson.videoId} />
             <DefaultUi />
           </Player>
         </div>
@@ -19,22 +65,22 @@ export function Video() {
         <div className="flex items-start gap-16">
           <div className="flex-1">
             <h1 className="text-2xl font-bold">
-              Aula 01 - Criando o projeto e realizando o setup inicial
+              {data.lesson.title}
             </h1>
 
             <p className="mt-4 text-gray-200 leading-relaxed">
-              Nessa aula vamos dar início ao projeto criando a estrutura base da aplicação utilizando ReactJS, Vite e TailwindCSS. Vamos também realizar o setup do nosso projeto no GraphCMS criando as entidades da aplicação e integrando a API GraphQL gerada pela plataforma no nosso front-end utilizando Apollo Client.
+              {data.lesson.description}
             </p>
 
             <div className="flex items-center gap-4 mt-6">
               <img
                 className="h-16 w-16 rounded-full border-2 border-blue-500"
-                src="https://github.com/thiagodemas.png"
-                alt="Thiago Demas"
+                src={data.lesson.teacher.avatarURL}
+                alt={data.lesson.teacher.name}
               />
               <div className="leading-relaxed">
-                <strong className="font-bold text-2xl block">Thiago Demas</strong>
-                <span className="text-gray-200 text-sm block">CTO @Rocketseat</span>
+                <strong className="font-bold text-2xl block">{data.lesson.teacher.name}</strong>
+                <span className="text-gray-200 text-sm block">{data.lesson.teacher.bio}</span>
               </div>
             </div>
 
@@ -42,11 +88,11 @@ export function Video() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <a href="#"
+            <a href="https://www.instagram.com/daianylima._/" target="_blank"
               className="
                 p-4
                 text-sm
-                bg-green-500
+                bg-red-600
                 flex
                 items-center
                 rounded
@@ -54,20 +100,19 @@ export function Video() {
                 uppercase
                 gap-2
                 justify-center
-                hover:bg-green-700
+                hover:bg-red-700
                 transition-colors"
             >
-              <DiscordLogo size={24} />
-              Comunidade do Discord
+              <InstagramLogo size={24} />
+              Instagram
             </a>
 
-            <a href="#"
+            <a href="https://www.facebook.com/daiany.lima.16503323" target="_blank"
               className="
                 p-4
                 text-sm
-                border
-                border-blue-500
-                text-blue-500
+                bg-blue-600
+                text-white
                 flex
                 items-center
                 rounded
@@ -75,12 +120,11 @@ export function Video() {
                 uppercase
                 gap-2
                 justify-center
-                hover:bg-blue-500
-                hover:text-gray-900
+                hover:bg-blue-800
                 transition-colors"
             >
-              <Lightning size={24} />
-              Acesse o desafio
+              <FacebookLogo size={24} />
+              Facebook
             </a>
           </div>
         </div>
