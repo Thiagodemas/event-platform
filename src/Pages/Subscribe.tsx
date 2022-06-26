@@ -3,6 +3,7 @@ import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Logo } from "../components/Logo";
 import { useCreateSubscriberMutation } from "../graphql/generated";
+import RostoImage from '../assets/image-rosto.png';
 
 export function Subscriber() {
   const navigate = useNavigate()
@@ -63,7 +64,7 @@ export function Subscriber() {
         </div>
       </div>
       <div className="w-full max-w-[1100px] flex items-center justify-between mt-20 mx-auto gap-8">
-        <img src="../src/assets/image-rosto.png" className="img-responsive max-w-[500px] mt-10" alt="Code Mockup" />
+        <img src={RostoImage} className="img-responsive max-w-[500px] mt-10" alt="Code Mockup" />
         <div className="max-w-[640px] p-5">
           <strong className="mt-8 text-[2.2rem] leading-tight text-bold text-blue-500">Curso Básico de Desenho para Iniciantes</strong>
           <p className="mt-4 text-2xl text-gray-200 leading-relaxed">
