@@ -62,7 +62,15 @@ export function Subscriber() {
           </form>
         </div>
       </div>
-      <img src="/src/assets/code-mockup.png" className="img-responsive mt-10" alt="Code Mockup" />
+      <div className="w-full max-w-[1100px] flex items-center justify-between mt-20 mx-auto gap-8">
+        <img src="../src/assets/image-rosto.png" className="img-responsive max-w-[500px] mt-10" alt="Code Mockup" />
+        <div className="max-w-[640px] p-5">
+          <strong className="mt-8 text-[2.2rem] leading-tight text-bold text-blue-500">Curso Básico de Desenho para Iniciantes</strong>
+          <p className="mt-4 text-2xl text-gray-200 leading-relaxed">
+            Tudo o que você precisa saber para dar os seus primeiros passos no universo do desenho
+          </p>
+        </div>
+      </div>
     </div>
   )
 }
